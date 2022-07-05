@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { useState } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -21,8 +20,6 @@ const StudentApp = ({ history }) => {
               history={history}
               sessionName={sessionName}
               sessionId={sessionId}
-              studentId={studentUser.id}
-              studentName={studentUser.name}
               studentEmail={studentUser.email}
             />
           )}

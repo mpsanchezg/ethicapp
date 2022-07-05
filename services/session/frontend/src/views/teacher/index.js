@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { useState } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Sessions from './Sessions';
 import ShowSession from './ShowSession';
 import StartSession from './StartSession';
-import Session from './Session';
 import { sessions } from '../../mockups/Mocks';
 
 const TeacherApp = ({ history }) => {

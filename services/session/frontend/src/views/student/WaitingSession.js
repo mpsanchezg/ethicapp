@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
 import JoinButton from '../../components/JoinButton';
 import {
   usePostApiRequest,
@@ -13,21 +13,13 @@ import SessionApi from '../../api/session';
 const WaitingSession = ({
   sessionId,
   sessionName,
-  studentId,
-  studentName,
   studentEmail,
   history,
 }) => {
   const [state, setState] = useState('out');
   const [joinResponse, joinError, doJoinFetch] = usePostApiRequest(
     `sessions/${sessionId}/join-session`,
-    {
-      student: {
-        id: studentId,
-        name: studentName,
-        email: studentEmail,
-      },
-    }
+    { studentEmail: studentEmail }
   );
 
   return (

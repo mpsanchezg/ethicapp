@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StudentCard from '../../components/StudentCard';

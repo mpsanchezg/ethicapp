@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { createMemoryHistory, createBrowserHistory } from 'history';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const mount = (element, { userRole, onNavigate, defaultHistory, initialPath }) => {
   const history =
     defaultHistory ||

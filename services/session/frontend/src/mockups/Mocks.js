@@ -29,7 +29,7 @@ const sessions = [
     id: 1,
     version: 1,
     code: 'abcde',
-    state: 'Waiting',
+    state: 'waiting',
     name: 'Ética Ev. 1',
     wfName: 'test_workflow',
     instructionalDesign: [''],

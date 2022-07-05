@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { usePostApiRequest } from '../../hooks/use-api-request';
 
 const Session = ({ sessionName, sessionId }) => {
-  const [startSessionResponse, , startSessionFetch] = usePostApiRequest(
+  const [ , , startSessionFetch] = usePostApiRequest(
     `sessions/${sessionId}/start`,
     {
       teacherId: 1,
