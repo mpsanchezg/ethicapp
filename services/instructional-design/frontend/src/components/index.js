@@ -1,0 +1,2 @@
+NODE_DEBUG=true
+NODE_ENV=development
