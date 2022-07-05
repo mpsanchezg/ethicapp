@@ -1,0 +1,48 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { useState } from 'react';
+import axios from 'axios';
+
+const api = axios.create({
+  headers: {
+    Accept: 'application/json',
+  },
+  baseURL: 'http://localhost:3003/api/',
+});
+
+const usePostApiRequest = (endpoint, body) => {
+  const [error, setError] = useState(null);
+  const [response, setResponse] = useState('');
+
+  const doFetch = async () => {
+    setError();
+    setResponse();
+    try {
+      const response = await api.post(endpoint, body);
+      setResponse(response);
+    } catch (err) {
+      setError(err);
+    }
+  };
+
+  return [response, error, doFetch];
+};
+
+const useGetApiRequest = (endpoint) => {
+  const [error, setError] = useState(null);
+  const [response, setResponse] = useState('');
+
+  const doFetch = async () => {
+    setError();
+    setResponse();
+    try {
+      const response = await api.get(endpoint);
+      setResponse(response);
+    } catch (err) {
+      setError(err);
+    }
+  };
+
+  return [response, error, doFetch];
+};
+
+export { usePostApiRequest, useGetApiRequest};
