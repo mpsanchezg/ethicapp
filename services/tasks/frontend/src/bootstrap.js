@@ -14,11 +14,19 @@ const mount = (element, { hasPermission, userRole, userEmail, onNavigate, defaul
     history.listen(onNavigate);
   }
 
+  if (!userRole) {
+    userRole = 'teacher';
+  }
+
+  if (!userEmail) {
+    userRole = 'profesora@ethic.app';
+  }
+
   ReactDOM.render(
     <App
       history={history}
-      userEmail={'profesora@ethic.app'} // cambiar por userEmail
-      userRole={'teacher'}  // cambiar por userRole
+      userEmail={userEmail}
+      userRole={userEmail}
       hasPermission={hasPermission || true} // sacar el true
     />,
     element
