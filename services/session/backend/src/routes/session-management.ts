@@ -57,7 +57,7 @@ router.get('/api/sessions/:sessionId/state', async (req: Request, res: Response)
 });
 
 router.get('/api/sessions/:sessionId/students', async (req: Request, res: Response) => {
-  const { sessionId } = req.body;
+  const { sessionId } = req.params;
 
   if (sessionId && Number(sessionId) < sessions.length) {
     const session = findSessionById(Number(sessionId));
