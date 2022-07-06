@@ -1,17 +1,14 @@
-/* eslint-disable no-undef */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const packageJson = require('./package.json');
-const webpack = require('webpack');
-const dotenv = require('dotenv');
 
 module.exports = {
   mode: 'development',
   output: {
-    publicPath: 'http://localhost:5004/'
+    publicPath: 'http://localhost:5052/'
   },
   devServer: {
-    port: 5004,
+    port: 5052,
     historyApiFallback: {
       index: '/index.html',
     }
@@ -36,7 +33,7 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'instructionalDesign',
+      name: 'instructionaldesign',
       filename: 'remoteEntry.js',
       exposes: {
         './InstructionalDesignApp': './src/bootstrap',
@@ -46,9 +43,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html'
     }),
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify(dotenv.config().parsed)
-  }),
   ],
   devtool: 'source-map',
 };

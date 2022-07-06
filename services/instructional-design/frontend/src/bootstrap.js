@@ -13,7 +13,7 @@ const mount = (element) => {
   };
 };
 
-const element = document.querySelector('#instructionaldesign');
+const element = document.querySelector('#ethic-instructional-design');
 
 if (element) {
   mount(element);
