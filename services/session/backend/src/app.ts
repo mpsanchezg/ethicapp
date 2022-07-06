@@ -6,7 +6,7 @@ import { createSessionRouter } from './routes/new';
 import { showSessionRouter } from './routes/show';
 import { indexSessionRouter } from './routes/index';
 import { netflixConductorRouter } from './routes/netflix-conductor';
-import { startSessionRouter } from './routes/start-session';
+import { startSessionRouter } from './routes/session-management';
 
 const app = express();
 

@@ -20,7 +20,7 @@ const App = ({ history, onSignIn }) => {
               signInDoFetch().then(() => {
                 if(signInError) {
                   console.log(signInError);
-                } else if (signInResponse?.status === 200) {
+                } else if (signInResponse?.status === 201) {
                   console.log('Authenticated');
                   onSignIn();
                   console.log('hola');

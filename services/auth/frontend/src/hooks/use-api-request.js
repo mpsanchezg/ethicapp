@@ -5,7 +5,7 @@ const api = axios.create({
   headers: {
     Accept: 'application/json',
   },
-  baseURL: 'http://localhost:3002/api/',
+  baseURL: 'http://localhost:3030/api/',
 });
 
 const usePostApiRequest = (endpoint, body) => {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -6,7 +5,7 @@ const api = axios.create({
   headers: {
     Accept: 'application/json',
   },
-  baseURL: 'http://localhost:3003/api/',
+  baseURL: 'http://localhost:3031/api/',
 });
 
 const usePostApiRequest = (endpoint, body) => {
