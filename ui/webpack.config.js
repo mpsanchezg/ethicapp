@@ -41,8 +41,8 @@ module.exports = {
       remotes: {
         auth: 'auth@http://localhost:5050/remoteEntry.js',
         session: 'session@http://localhost:5051/remoteEntry.js',
-        instructionalDesign: 'instructionalDesign@http://localhost:5053/remoteEntry.js',
-        tasks: 'tasks@http://localhost:5054/remoteEntry.js'
+        instructionalDesign: 'instructionaldesign@http://localhost:5052/remoteEntry.js',
+        tasks: 'tasks@http://localhost:5053/remoteEntry.js'
       },
       shared: packageJson.dependencies,
     }),
