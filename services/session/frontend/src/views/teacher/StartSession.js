@@ -21,12 +21,12 @@ const StartSession = ({ history, sessionName, sessionId, workflowName, teacherEm
     }
   );
   const [getStudentsResponse, , getStudentsFetch] = useGetApiRequest(
-    'sessions/1/students'
+    `sessions/${sessionId}/students`
   );
   const [startSessionResponse, , startSessionFetch] = usePostApiRequest(
     `sessions/${sessionId}/start`,
     {
-      teacherId: 1,
+      teacherEmail: teacherEmail,
     }
   );
 
