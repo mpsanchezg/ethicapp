@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { usePostApiRequest } from '../../hooks/use-api-request';
 
-const Session = ({ sessionName, sessionId }) => {
+const Session = ({ sessionName, sessionId, teacherEmail }) => {
   const [ , , startSessionFetch] = usePostApiRequest(
     `sessions/${sessionId}/start`,
     {
-      teacherId: 1,
+      teacherEmail: teacherEmail,
     }
   );
 
@@ -23,6 +23,7 @@ const Session = ({ sessionName, sessionId }) => {
 Session.propTypes = {
   sessionName: PropTypes.string,
   sessionId: PropTypes.any,
+  teacherEmail: PropTypes.string,
 };
 
 export default Session;

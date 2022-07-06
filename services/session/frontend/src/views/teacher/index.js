@@ -6,7 +6,7 @@ import ShowSession from './ShowSession';
 import StartSession from './StartSession';
 import { sessions } from '../../mockups/Mocks';
 
-const TeacherApp = ({ history }) => {
+const TeacherApp = ({ teacherEmail, history }) => {
   const [sessionName, setSessionName] = useState('');
   const [sessionId, setSessionId] = useState('');
 
@@ -37,10 +37,12 @@ const TeacherApp = ({ history }) => {
               sessionName={sessionName}
               sessionId={sessionId}
               workflowName={sessionName}
+              teacherEmail={teacherEmail}
             />
           )}
         </Route>
-        {/* <Route exact path="/sessions/:id/instructional-design">
+        {/* SESSION STATE: IN-PROGRESS
+        <Route exact path="/sessions/:id/instructional-design">
           {sessionName && (
             <Session 
               sessionName={sessionName}
@@ -55,6 +57,7 @@ const TeacherApp = ({ history }) => {
 
 TeacherApp.propTypes = {
   history: PropTypes.object,
+  teacherEmail: PropTypes.string,
 };
 
 export default TeacherApp;

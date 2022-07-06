@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { studentUser } from '../../mockups/Mocks';
 import WaitingSession from './WaitingSession';
 
-const StudentApp = ({ history }) => {
+const StudentApp = ({ studentEmail, history }) => {
   const [sessionName, ] = useState('prueba');
   const [sessionId, ] = useState('1');
 
@@ -20,7 +19,7 @@ const StudentApp = ({ history }) => {
               history={history}
               sessionName={sessionName}
               sessionId={sessionId}
-              studentEmail={studentUser.email}
+              studentEmail={studentEmail}
             />
           )}
         </Route>
@@ -32,6 +31,7 @@ const StudentApp = ({ history }) => {
 StudentApp.propTypes = {
   history: PropTypes.object,
   workflowName: PropTypes.string,
+  studentEmail: PropTypes.string,
 };
 
 export default StudentApp;

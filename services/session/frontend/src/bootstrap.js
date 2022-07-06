@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { createMemoryHistory, createBrowserHistory } from 'history';
 
-const mount = (element, { userRole, onNavigate, defaultHistory, initialPath }) => {
+const mount = (element, { userEmail, userRole, onNavigate, defaultHistory, initialPath }) => {
   const history =
     defaultHistory ||
     createMemoryHistory({
@@ -18,8 +18,12 @@ const mount = (element, { userRole, onNavigate, defaultHistory, initialPath }) =
     userRole = 'teacher';
   }
 
+  if (!userEmail) {
+    userEmail = 'profesora@ethic.app';
+  }
+
   ReactDOM.render(
-    <App history={history} userRole={userRole}/>,
+    <App history={history} userRole={userRole} userEmail={userEmail} />,
     element
   );
 

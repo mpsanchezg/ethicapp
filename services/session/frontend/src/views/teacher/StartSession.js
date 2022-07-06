@@ -7,7 +7,7 @@ import {
   useGetApiRequest,
 } from '../../hooks/use-api-request';
 
-const StartSession = ({ history, sessionName, sessionId, workflowName }) => {
+const StartSession = ({ history, sessionName, sessionId, workflowName, teacherEmail }) => {
   const [sessionState, setSessionState] = useState('CLOSE_ROOM');
   const [students, setStudents] = useState([]);
   const [startWorkflowResponse, startWorkflowError, startWorkflowFetch] =
@@ -17,7 +17,7 @@ const StartSession = ({ history, sessionName, sessionId, workflowName }) => {
   const [openSessionResponse, , openSessionFetch] = usePostApiRequest(
     `sessions/${sessionId}/open`,
     {
-      teacherId: 1,
+      teacherEmail: teacherEmail,
     }
   );
   const [getStudentsResponse, , getStudentsFetch] = useGetApiRequest(
@@ -94,6 +94,7 @@ StartSession.propTypes = {
   sessionName: PropTypes.string,
   sessionId: PropTypes.number.isRequired,
   workflowName: PropTypes.string,
+  teacherEmail: PropTypes.string,
 };
 
 export default StartSession;

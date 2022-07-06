@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import TeacherApp from './views/teacher';
 import StudentApp from './views/student';
 
-const App = ({ userRole, history }) => {
+const App = ({ userEmail, userRole, history }) => {
   return (
     <>
       { userRole === 'teacher' ? (
-        <TeacherApp history={history}/>
+        <TeacherApp teacherEmail={userEmail} history={history}/>
       ) : (
-        <StudentApp history={history} />
+        <StudentApp studentEmail={userEmail} history={history} />
       ) }
     </>
   );
@@ -20,6 +20,7 @@ App.propTypes = {
   userRole: PropTypes.string,
   history: PropTypes.object,
   workflowName: PropTypes.string,
+  userEmail: PropTypes.string,
 };
 
 export default App;
