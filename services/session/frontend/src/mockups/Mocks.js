@@ -28,11 +28,10 @@ const sessions = [
   {
     id: 1,
     version: 1,
-    code: 'abcde',
     state: 'waiting',
-    name: 'Ética Ev. 1',
-    wfName: 'test_workflow',
-    instructionalDesign: [''],
+    name: 'title 2',
+    description: 'description',
+    teacherEmail: 'profesora@ethic.app',
     students: students,
   },
 ];

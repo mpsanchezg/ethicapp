@@ -12,10 +12,14 @@ class Session {
   state: SessionState;
   teacherEmail: string;
   studentEmails: Array<string>;
-  stateHistory: Array<SessionState>
+  stateHistory: Array<SessionState>;
+  workflowId: string;
+  workflowTasks: any;
 
   addStudents: Function;
   changeState: Function;
+  setWorkflowId: Function;
+  addWorkflowTasks: Function;
 
   constructor(id: number, title: string, description: string, teacherEmail: string) {
     this.id = id;
@@ -23,16 +27,28 @@ class Session {
     this.description = description;
     this.state = 'uninitialized';
     this.teacherEmail = teacherEmail;
-    this.studentEmails = []
-    this.stateHistory = [this.state]
+    this.studentEmails = [];
+    this.stateHistory = [this.state];
+    this.workflowId = '';
+    this.workflowTasks = {}
 
     this.addStudents = (email: string) => {
       this.studentEmails.push(email);
-    }
+    };
 
     this.changeState = (newState: SessionState) => {
       this.state = newState;
       this.stateHistory.push(newState);
+    };
+
+    this.setWorkflowId = (wfId: string) => {
+      this.workflowId = wfId;
+    };
+
+    this.addWorkflowTasks = (tasks: Array<any>) => {
+      tasks.map((task: any) => {
+        this.workflowTasks[task.referenceTaskName] = task.taskId;
+      })
     }
   };
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import JoinButton from '../../components/JoinButton';
@@ -16,50 +16,60 @@ const WaitingSession = ({
   studentEmail,
   history,
 }) => {
-  const [state, setState] = useState('out');
+  const [sessionState, setSessionState] = useState('out');
   const [joinResponse, joinError, doJoinFetch] = usePostApiRequest(
     `sessions/${sessionId}/join-session`,
     { studentEmail: studentEmail }
   );
 
+  useEffect(() => {
+    console.log('HOLAAAA');
+  },[]);
+
+  const startInstructionalDesign = () => {
+    history.push('/instructional-design/start');
+  };
+  
+  const join = () => {
+    doJoinFetch().then(() => {
+      if (joinResponse) console.log(joinResponse);
+      if (joinError) console.log(joinError);
+      setSessionState('waiting');
+    });
+  };
+
+  const getSessionStatePolling = () => {
+    poll({
+      fn: SessionApi.getSessionState,
+      interval: 1000,
+      attr: sessionId,
+      maxAttempts: 20,
+    }).then((res) => {
+      console.log('res', res);
+      setSessionState('ready');
+    });
+  };
+
   return (
     <div>
-      {state === 'waiting' ? (
+      {sessionState === 'waiting' ? (
         <>
           <Loading
-            onLoading={() => {
-              poll({
-                fn: SessionApi.getSessionState,
-                interval: 1000,
-                attr: sessionId,
-                maxAttempts: 20,
-              }).then((res) => {
-                console.log('res', res);
-                setState('ready');
-              });
-            }}
+            onLoading={getSessionStatePolling}
           />
         </>
-      ) : state === 'ready' ? (
+      ) : sessionState === 'ready' ? (
         <>
           <p>{'Para empezar, haz click en el siguiente botón'}</p>
           <NextButton
-            onClick={() => {
-              history.push('/instructional-design/start');
-            }}
+            onClick={startInstructionalDesign}
           />
         </>
       ) : (
         <div>
           <p className="text-2xl">{`${sessionName}`}</p>
           <JoinButton
-            onJoin={() => {
-              doJoinFetch().then(() => {
-                if (joinResponse) console.log(joinResponse);
-                if (joinError) console.log(joinError);
-                setState('waiting');
-              });
-            }}
+            onJoin={join}
           />
         </div>
       )}
@@ -70,8 +80,6 @@ const WaitingSession = ({
 WaitingSession.propTypes = {
   sessionName: PropTypes.string,
   sessionId: PropTypes.string,
-  studentId: PropTypes.number,
-  studentName: PropTypes.string,
   studentEmail: PropTypes.string,
   history: PropTypes.any,
 };

@@ -2,18 +2,23 @@ import React, { useState } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import WaitingSession from './WaitingSession';
+import NextButton from '../../components/NextButton';
 
 const StudentApp = ({ studentEmail, history }) => {
   const [sessionName, ] = useState('prueba');
   const [sessionId, ] = useState('1');
 
+  const goToWaitingRoom = () => {
+    history.push(`sessions/${sessionId}/wait`);
+  };
+
   return (
     <Router history={history}>
       <Switch>
-        <Route exact path="/session">
-          <div>{'poner aqui una vista que ponga a que sesion se va a unir'}</div>
+        <Route exact path="/sessions">
+          <NextButton onClick={goToWaitingRoom} />
         </Route>
-        <Route exact path="/session/wait">
+        <Route exact path="/sessions/:id/wait">
           {sessionName && (
             <WaitingSession
               history={history}

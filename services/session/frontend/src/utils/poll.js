@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const poll = async ({ fn, attr, interval, maxAttempts }) => {
   let attempts = 0;
 

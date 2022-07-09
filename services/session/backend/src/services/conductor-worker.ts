@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { ConductorWorker } from 'netflix-conductor-utilities';
+import { ConductorWorker, WorkflowManager } from 'netflix-conductor-utilities';
+import axios from 'axios';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const pollingConductorTask = async (url: string, apiPath: string, workerId: string, taskType: string) => {
 
   const worker = new ConductorWorker({
@@ -25,4 +24,47 @@ const pollingConductorTask = async (url: string, apiPath: string, workerId: stri
 
 };
 
-export { pollingConductorTask };
+const conductorUrl = 'http://100.97.187.67:8080/api';
+
+const wfManager = new WorkflowManager({ apiEndpoint: conductorUrl });
+
+const doConductorRequest = async (sessionId: number, workflowName: string) => {
+  return await wfManager.startWorkflow({
+    name: workflowName,
+    input: { sessionId }
+  }).then((response) => {
+    return response;
+  });
+}
+
+const getWorkflowWithTasksById = async (workflowId: string) => {
+  return await axios({
+    url: `${conductorUrl}/workflow/${workflowId}?includeTasks=true`,
+    method: 'GET',
+    responseType: 'json'
+  }).then((response) => {
+    return response.data;
+  });
+}
+
+const completeWaitingStudentsTask = async (worfklowId: string, taskId: string) => {
+  return await axios({
+    method: 'post',
+    url: `${conductorUrl}/tasks`,
+    responseType: 'json',
+    data: { 
+      workflowInstanceId: worfklowId,
+      taskId: taskId,
+      status: 'COMPLETED'
+    },    
+  }).then((response) => {
+    return response.data;
+  });
+}
+
+export {
+  pollingConductorTask,
+  doConductorRequest,
+  completeWaitingStudentsTask,
+  getWorkflowWithTasksById
+};

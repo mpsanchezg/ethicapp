@@ -17,10 +17,10 @@ const App = ({ userEmail, userRole, history }) => {
 };
 
 App.propTypes = {
-  userRole: PropTypes.string,
   history: PropTypes.object,
   workflowName: PropTypes.string,
   userEmail: PropTypes.string,
+  userRole: PropTypes.string,
 };
 
 export default App;

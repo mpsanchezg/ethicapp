@@ -1,21 +1,35 @@
 import express, { Request, Response } from 'express';
 
 import { sessions } from '../mock/sessions';
+import { doConductorRequest, getWorkflowWithTasksById, completeWaitingStudentsTask } from '../services/conductor-worker';
 import { findSessionById } from '../utils/findSession';
 
 const router = express.Router();
 
-const students: {id: string, name: string, email: string}[] = [];
-
 router.post('/api/sessions/:sessionId/open', async (req: Request, res: Response) => {
   const { sessionId } = req.params;
   const { teacherEmail } = req.body;
+  const workflowName = 'start_session_worfklow';
 
   if (teacherEmail && sessionId && Number(sessionId) < sessions.length) {
     const session = findSessionById(Number(sessionId));
-    session.changeState('open');
+    if (session.state !== 'open') {
+      const startWorkflowResponse = (await doConductorRequest(Number(sessionId), workflowName));
+      const getWorkflowResponse = (await getWorkflowWithTasksById(startWorkflowResponse.workflowId));
 
-    res.send(session.state);
+      session.setWorkflowId(startWorkflowResponse.workflowId);
+      session.addWorkflowTasks(getWorkflowResponse.tasks);
+      session.changeState('open');
+
+      res.status(200).send({ sessionState: session.state, workflowId: session.workflowId });
+    } else {
+      res.status(200).send({
+        sessionState: session.state,
+        workflowId: session.workflowId,
+        message: 'session already open',
+      });
+    }
+    
   } else if (teacherEmail && (!sessionId || Number(sessionId) >= sessions.length)) {
     res.status(400).send('Bad Request');
   } else {
@@ -29,9 +43,16 @@ router.post('/api/sessions/:sessionId/start', async (req: Request, res: Response
 
   if (teacherEmail && sessionId && Number(sessionId) < sessions.length) {
     const session = findSessionById(Number(sessionId));
-    session.changeState('starting');
+    const taskReferenceName = 'wait_students';
+    session.changeState('in-progress');
 
-    res.send(session.state);
+    // skip worfklows wait students task
+    const response = (await completeWaitingStudentsTask(
+      session.workflowId,
+      session.workflowTasks[taskReferenceName]
+    ));
+
+    res.status(200).send({ sessionState: session.state, conductorResponse: response });
   } else if (teacherEmail && (!sessionId || Number(sessionId) >= sessions.length)) {
     res.status(400).send('Bad Request');
   } else {
@@ -46,10 +67,10 @@ router.get('/api/sessions/:sessionId/state', async (req: Request, res: Response)
     const session = findSessionById(Number(sessionId));
     const state = session.state;
 
-    if (state === 'starting') {
+    if (state === 'in-progress') {
       res.status(200).send(state);
     } else {
-      res.sendStatus(204).send(state);
+      res.status(204).send(state);
     }
   } else {
     res.status(401).send('Unauthorized');
@@ -71,13 +92,16 @@ router.get('/api/sessions/:sessionId/students', async (req: Request, res: Respon
 
 router.post('/api/sessions/:sessionId/join-session', async (req: Request, res: Response) => {
   const { sessionId } = req.params;
-  const { studentEmail } = req.body.student;
+  const { studentEmail } = req.body;
 
   if (studentEmail && sessionId && Number(sessionId) < sessions.length) {
     const session = findSessionById(Number(sessionId));
-    const students = session.studentEmails;
+
     if (session.state === 'open') {
-      students.push(studentEmail);
+      session.addStudents(studentEmail);
+
+      // front hace una suscripción para que le envíe una respuesta al student luego de que 
+      // la tarea wait_students esté completa.
   
       res.status(202).send('Successful join');
     } else {
