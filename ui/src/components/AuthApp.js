@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 
 // eslint-disable-next-line react/prop-types
-const AuthApp = ({ onSignIn }) => {
+const AuthApp = ({ onSignIn, setUserEmail, setUserRole }) => {
   const ref = useRef(null);
   const history = useHistory();
 
@@ -18,7 +18,9 @@ const AuthApp = ({ onSignIn }) => {
           history.push(nextPathname);
         }
       },
-      onSignIn
+      onSignIn,
+      setUserEmail,
+      setUserRole,
     });
 
     history.listen(onParentNavigate);

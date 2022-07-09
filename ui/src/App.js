@@ -15,6 +15,8 @@ const history = createBrowserHistory();
 
 const App = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [userRole, setUserRole] = useState('');
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
     if (isSignedIn) {
@@ -36,16 +38,25 @@ const App = () => {
                 onSignIn={() => {
                   console.log('User signed in!');
                   setIsSignedIn(true);
+                  console.log('ROLE', userRole);
                 }}
+                setUserEmail={setUserEmail}
+                setUserRole={setUserRole}
               />
             </Route>
             <Route path="/sessions">
-              {isSignedIn ? (<SessionLazy />) : (
+              {isSignedIn ? (
+                <SessionLazy
+                  userEmail={userEmail}
+                  userRole={userRole}
+                />) : (
                 <AuthLazy
                   onSignIn={() => {
                     console.log('User signed in!');
                     setIsSignedIn(true);
                   }}
+                  setUserEmail={setUserEmail}
+                  setUserRole={setUserRole}
                 />)
               }
             </Route>
