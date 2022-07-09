@@ -1,4 +1,5 @@
 {
+  "createTime": 1657312873511,
   "updateTime": 1657223262258,
   "name": "start_session_worfklow",
   "description": "teacher session",
@@ -11,8 +12,8 @@
         "http_request": {
           "uri": "http://100.86.188.8:3032/api/instructional-design/?sessionId=${workflow.input.sessionId}",
           "method": "GET",
-          "connectionTimeOut":"3600",
-          "readTimeOut":"3600"
+          "connectionTimeOut": "3600",
+          "readTimeOut": "3600"
         }
       },
       "type": "HTTP",
@@ -66,8 +67,8 @@
             "http_request": {
               "uri": "http://100.86.188.8:3033/api/tasks/${task_ids[session_activity.ref.output.iteration]}",
               "method": "POST",
-              "connectionTimeOut":"3600",
-              "readTimeOut":"3600"
+              "connectionTimeOut": "3600",
+              "readTimeOut": "3600"
             }
           },
           "type": "HTTP",
