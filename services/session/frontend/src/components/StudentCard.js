@@ -1,22 +1,18 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const StudentCard = ({ student, details }) => {
+const StudentCard = ({ student }) => {
   return(
     <div
-      className="px-6 py-2 rounded-lg w-96 h-16 bg-gray-400"
+      className="p-2 rounded-lg bg-gray-400"
     >
-      <p className="text-lg">{ student.name }</p>
-      <p className="text-sm">{ student.email }</p>
-      { details ? 'detalle' : <></> }
+      <p className="text-lg">{ student }</p>
     </div>
   );
 };
 
 StudentCard.propTypes = {
-  student: PropTypes.object,
-  details: PropTypes.bool,
+  student: PropTypes.string,
 };
 
 export default StudentCard;

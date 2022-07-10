@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
 import StudentCard from '../../components/StudentCard';
 import NextButton from '../../components/NextButton';
 import {
   usePostApiRequest,
   useGetApiRequest,
 } from '../../hooks/use-api-request';
+import { poll } from '../../utils/poll';
 
 const StartSession = ({ history, sessionName, sessionId, workflowName, teacherEmail }) => {
   const [sessionState, setSessionState] = useState('CLOSE_ROOM');
   const [students, setStudents] = useState([]);
-  const [startWorkflowResponse, startWorkflowError, startWorkflowFetch] =
-    usePostApiRequest('netflix-conductor', {
-      wf_name: 'teacher_initialize_session',
-    });
   const [openSessionResponse, , openSessionFetch] = usePostApiRequest(
     `sessions/${sessionId}/open`,
     {
@@ -30,20 +28,55 @@ const StartSession = ({ history, sessionName, sessionId, workflowName, teacherEm
     }
   );
 
-  useEffect(() => {
-    startWorkflowFetch().then(() => {
-      if (startWorkflowResponse) {
-        console.log('STARTWF', startWorkflowResponse);
+  const updateStudentsState = (newStudent) => {
+    setStudents((previousState) => {
+      const isNotNewStudent = previousState.find((student) => student === newStudent);
+      console.log('HOLA', isNotNewStudent);
+      if (isNotNewStudent) {
+        return [...previousState];
       } else {
-        console.log(startWorkflowError);
+        return [...previousState, newStudent];
       }
     });
+  };
 
-    openSessionFetch().then(() => {
-      console.log('STARTSESSION', openSessionResponse);
-      setSessionState('OPEN_ROOM');
+  const startSession = () => {
+    startSessionFetch().then(() => {
+      if (startSessionResponse.status === 200)
+        history.push('/instructional-design');
+    });
+  };
+
+  const getStudents = () => {
+    poll({
+      fn: getStudentsFetch,
+      interval: 1000,
+      maxAttempts: 20,
+    });
+  };
+ 
+  useEffect(() => {
+    openSessionFetch();
+    poll({
+      fn: getStudentsFetch,
+      interval: 3000,
+      maxAttempts: 40,
     });
   }, []);
+
+  useEffect(() => {
+    if (openSessionResponse && openSessionResponse.status === 200) {
+      setSessionState('OPEN_ROOM');
+    }
+  }, [openSessionResponse]);
+
+  useEffect(() => {  
+    if (getStudentsResponse && getStudentsResponse.status === 200) {
+      getStudentsResponse.data.map((newStudents) => {
+        updateStudentsState(newStudents);
+      });
+    }
+  }, [getStudentsResponse]);
 
   return (
     <div className="w-full md:w-7/12 p-8 bg-gray-100">
@@ -55,33 +88,20 @@ const StartSession = ({ history, sessionName, sessionId, workflowName, teacherEm
         <></>
       ) : (
         <div>
-          {students.length === 0 ? (
+          { students.length === 0 ? (
             <>{'Loading...'}</>
           ) : (
-            students.map((student) => (
-              <StudentCard key={student.id} student={student} details={false} />
+            students.map((student, index) => (
+              <StudentCard key={index} student={student} details={false} />
             ))
           )}
           <button
-            onClick={() => {
-              getStudentsFetch().then((data) => {
-                console.log(data);
-                if (getStudentsResponse.students) {
-                  setStudents(() => getStudentsResponse?.students);
-                  console.log('STUDENTS', students);
-                }
-              });
-            }}
+            onClick={getStudents}
           >
             {'Update'}
           </button>
           <NextButton
-            onClick={() => {
-              startSessionFetch().then(() => {
-                if (startSessionResponse)
-                  history.push('/instructional-design');
-              });
-            }}
+            onClick={startSession}
           />
         </div>
       )}

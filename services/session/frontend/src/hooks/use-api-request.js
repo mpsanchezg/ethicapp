@@ -44,4 +44,4 @@ const useGetApiRequest = (endpoint) => {
   return [response, error, doFetch];
 };
 
-export { usePostApiRequest, useGetApiRequest};
+export { usePostApiRequest, useGetApiRequest };

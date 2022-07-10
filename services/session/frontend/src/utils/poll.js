@@ -4,7 +4,11 @@ const poll = async ({ fn, attr, interval, maxAttempts }) => {
   const executePoll = async (resolve, reject) => {
     let result;
     try {
-      result = await fn(attr);
+      if (attr) {
+        result = await fn(attr);
+      } else {
+        result = await fn();
+      }
     } catch(error) {
       result = error;
     }
