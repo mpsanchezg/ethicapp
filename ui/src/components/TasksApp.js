@@ -1,9 +1,8 @@
-import { mount } from 'session/SessionApp';
+import { mount } from 'tasks/TasksApp';
 import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 
-// eslint-disable-next-line react/prop-types
 const TasksApp = () => {
   const ref = useRef(null);
   const history = useHistory();
