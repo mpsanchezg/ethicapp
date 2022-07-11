@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Exit if any subcommand fails
+set -e
+
+# start orchestrator 
+
+# start
+npm start --prefix ./services/auth/backend \
+& npm start --prefix ./services/auth/frontend \
+& npm start --prefix ./services/instructional-design/backend \
+& npm start --prefix ./services/instructional-design/frontend \
+& npm start --prefix ./services/session/backend \
+& npm start --prefix ./services/session/frontend \
+& npm start --prefix ./services/tasks/backend \
+& npm start --prefix ./services/tasks/frontend \
+& npm start --prefix ./ui
