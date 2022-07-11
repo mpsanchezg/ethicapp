@@ -1,4 +1,1 @@
-
-export const taskAnswers = [
-  
-]
+export const taskAnswers = [];

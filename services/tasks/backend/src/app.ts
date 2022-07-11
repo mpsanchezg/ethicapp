@@ -4,7 +4,7 @@ import { errorHandler, NotFoundError } from '@cygnetops/common';
 
 import { showTaskRouter } from './routes/show-task';
 
-const app = express()
+const app = express();
 
 app.set('trust proxy', true);
 

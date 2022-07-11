@@ -1,5 +1,5 @@
-import ChoiceTask from "../models/choice-task";
-import QuestionTask from "../models/question-task";
+import ChoiceTask from '../models/choice-task';
+import QuestionTask from '../models/question-task';
 
 export const tasks = [
   new QuestionTask(
@@ -14,4 +14,4 @@ export const tasks = [
     'del 1 al 5, como te sientes?',
     ['1', '2', '3', '4', '5']
   )
-]
+];

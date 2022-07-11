@@ -1,4 +1,4 @@
-import BaseTask from "./base-task";
+import BaseTask from './base-task';
 
 export default class ChoiceTask implements BaseTask {
   id: number;

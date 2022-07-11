@@ -11,7 +11,7 @@ export default class QuestionTask implements BaseTask {
     this.id = id;
     this.author = author;
     this.question = question;
-    this.answerLimit = answerLimit;
+    this.answerLimit = answerLimit || 100;
     this.type = 'question-task';
   }
 }
