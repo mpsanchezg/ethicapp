@@ -1,1 +1,3 @@
-export const taskAnswers = [];
+import TaskAnswer from "../models/task-answer";
+
+export const taskAnswers: TaskAnswer[] = [];
