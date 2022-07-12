@@ -9,16 +9,16 @@ const router = express.Router();
 router.post('/api/sessions/:sessionId/open', async (req: Request, res: Response) => {
   const { sessionId } = req.params;
   const { teacherEmail } = req.body;
-  const workflowName = 'start_session_worfklow';
+  const workflowName = 'start_session_workflow';
 
   if (teacherEmail && sessionId && Number(sessionId) < sessions.length) {
     const session = findSessionById(Number(sessionId));
-    if (session.state !== 'open') {
-      const startWorkflowResponse = (await doConductorRequest(Number(sessionId), workflowName));
-      const getWorkflowResponse = (await getWorkflowWithTasksById(startWorkflowResponse.workflowId));
 
-      session.setWorkflowId(startWorkflowResponse.workflowId);
-      session.addWorkflowTasks(getWorkflowResponse.tasks);
+    if (session.state !== 'open') {
+      const startWorkflowResponse = await doConductorRequest(Number(sessionId), workflowName);
+      console.log('[SESSION MANAGEMENT] startWorkflowResponse', startWorkflowResponse);
+
+      session.setWorkflowId(startWorkflowResponse);
       session.changeState('open');
 
       res.status(200).send({ sessionState: session.state, workflowId: session.workflowId });
@@ -43,14 +43,19 @@ router.post('/api/sessions/:sessionId/start', async (req: Request, res: Response
 
   if (teacherEmail && sessionId && Number(sessionId) < sessions.length) {
     const session = findSessionById(Number(sessionId));
-    const taskReferenceName = 'wait_students';
-    session.changeState('in-progress');
+    const getWorkflowResponse = (await getWorkflowWithTasksById(session.workflowId));
+    console.log('[SESSION MANAGEMENT] getWorkflowResponse', getWorkflowResponse.tasks);
+    session.addWorkflowTasks(getWorkflowResponse.tasks);
 
+    const taskReferenceName = 'wait_students';
+    
     // skip worfklows wait students task
     const response = (await completeWaitingStudentsTask(
       session.workflowId,
       session.workflowTasks[taskReferenceName]
-    ));
+      ));
+    console.log('SESSION MANAGEMENT -> START SESSION', response)
+    session.changeState('in-progress');
 
     res.status(200).send({ sessionState: session.state, conductorResponse: response });
   } else if (teacherEmail && (!sessionId || Number(sessionId) >= sessions.length)) {
