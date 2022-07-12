@@ -12,7 +12,8 @@ router.get('/api/instructional-design', async (req: Request, res: Response) => {
     res.status(404).send('Instructional Design not found');
   } else if (sessionId) {
     const iDesign = findInstructionalDesignBySessionId(Number(sessionId));
-    
+    console.log('I DESIGN', iDesign);
+
     if (iDesign) {
       const resp = { taskIds: iDesign.taskIds, tasksArrayLength: iDesign.taskIds.length };
       res.status(200).send(resp);

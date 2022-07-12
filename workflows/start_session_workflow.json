@@ -1,7 +1,5 @@
 {
-  "createTime": 1657312873511,
-  "updateTime": 1657403679944,
-  "name": "start_session_worfklow",
+  "name": "start_session_workflow",
   "description": "teacher session",
   "version": 3,
   "tasks": [
@@ -10,7 +8,7 @@
       "taskReferenceName": "get_idesign",
       "inputParameters": {
         "http_request": {
-          "uri": "http://100.86.188.8:3032/api/instructional-design/?sessionId=${workflow.input.sessionId}",
+          "uri": "http://100.86.188.8:3032/api/instructional-design?sessionId=${workflow.input.sessionId}",
           "method": "GET",
           "connectionTimeOut": "3600",
           "readTimeOut": "3600"
@@ -76,7 +74,7 @@
           "inputParameters": {
             "counter": "${session_activity.ref.output.iteration}",
             "http_request": {
-              "uri": "http://100.86.188.8:3033/api/tasks/${current_task.output.result}",
+              "uri": "http://100.86.188.8:3033/api/tasks/${current_task.output.result}/create",
               "method": "POST",
               "body": {
                 "sessionId": "${workflow.input.sessionId}"

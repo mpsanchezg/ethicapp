@@ -68,7 +68,7 @@ const completeWaitingStudentsTask = async (worfklowId: string, taskId: string) =
       status: 'COMPLETED'
     },    
   }).then((response) => {
-    console.log('[HEY] complete wait student task', response);
+    console.log('[HEY] complete wait student task');
     return response.data;
   });
 }
