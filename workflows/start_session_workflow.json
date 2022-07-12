@@ -78,6 +78,9 @@
             "http_request": {
               "uri": "http://100.86.188.8:3033/api/tasks/${current_task.output.result}",
               "method": "POST",
+              "body": {
+                "sessionId": "${workflow.input.sessionId}"
+              },
               "connectionTimeOut": "3600",
               "readTimeOut": "3600"
             }
