@@ -49,7 +49,7 @@ const getWorkflowWithTasksById = async (workflowId: string) => {
     method: 'GET',
     responseType: 'json'
   }).then((response) => {
-    console.log('RESP', response);  
+    console.log('getWorkflowWithTasksById');
     return response.data;
   });
 }
@@ -59,12 +59,16 @@ const completeWaitingStudentsTask = async (worfklowId: string, taskId: string) =
     method: 'post',
     url: `${conductorUrl}/tasks`,
     responseType: 'json',
+    headers: {
+      "Content-Type": "application/json"
+    },
     data: { 
       workflowInstanceId: worfklowId,
       taskId: taskId,
       status: 'COMPLETED'
     },    
   }).then((response) => {
+    console.log('[HEY] complete wait student task', response);
     return response.data;
   });
 }

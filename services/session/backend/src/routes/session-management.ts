@@ -48,7 +48,7 @@ router.post('/api/sessions/:sessionId/start', async (req: Request, res: Response
     session.addWorkflowTasks(getWorkflowResponse.tasks);
 
     const taskReferenceName = 'wait_students';
-    
+    console.log('[SESSION MANAGEMENT] WAIT TASK ID', session.workflowTasks[taskReferenceName])
     // skip worfklows wait students task
     const response = (await completeWaitingStudentsTask(
       session.workflowId,
