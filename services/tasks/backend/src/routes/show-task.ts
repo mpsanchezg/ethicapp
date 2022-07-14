@@ -1,7 +1,8 @@
-import express, { Request, Response } from 'express';
+import express, { Request, response, Response } from 'express';
 import { validateRequest } from '@cygnetops/common';
 
 import { findTaskById } from '../utils/tasks';
+import { taskAnswers } from '../mock/task-answers';
 
 const router = express.Router();
 
@@ -17,6 +18,6 @@ router.get(
     }
     else res.status(404).send('task not found');
   }
-)
+);
 
 export { router as showTaskRouter };
